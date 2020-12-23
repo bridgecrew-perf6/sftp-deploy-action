@@ -32,10 +32,10 @@ runs:
       run: |
         PRIVATE_KEY_FILE='../private_key.pem'
         SFTP_FILE='../sftp'
-        printf "%s" "${{ inputs.ssh_private_key }}" >$PRIVATE_KEY_FILE
+        echo "${{ inputs.ssh_private_key }}" >$PRIVATE_KEY_FILE
         chmod 600 $PRIVATE_KEY_FILE
-        cat $PRIVATE_KEY_FILE
         printf "%s" "put -r ${{ inputs.local_path }} ${{ inputs.remote_path }}" >$SFTP_FILE
+        cat $SFTP_FILE
         sftp -b $SFTP_FILE -P ${{ inputs.port }} ${{ inputs.args }} -o StrictHostKeyChecking=no \
                   -i $PRIVATE_KEY_FILE ${{ inputs.username }}@${{ inputs.server }}
       shell: bash -e {0}
